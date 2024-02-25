@@ -4,18 +4,46 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 const form = document.querySelector("#search-form");
-const input = document.querySelector(".search-input");
+const input = document.querySelector("#search-form input");
 const gallery = document.querySelector(".gallery");
-const loadBtn = document.querySelector(".load-more");
+//const loadBtn = document.querySelector(".load-more");
+//loadBtn.classList.add("hidden");
 
-const qValue = "sun";//input.value.split(" ").join("+");
+let qValue; 
+console.log(qValue);
 let page = 1;
+let searchedValue;
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  //loadBtn.classList.add("hidden");
+  searchedValue = input.value.trim();
+
+  // Empty input to fetch
+  if (!searchedValue) {
+      Notiflix.Notify.info('Please enter keywords again');
+      return;
+  }
+  
+  qValue = searchedValue.split(" ").join("+");
+
+
   try {
-    const pictures = await fetchPixabay();
+    const pictures = await fetchPixabay(qValue, page);
     renderGallery(pictures);
+    const totalHits = pictures.totalHits;
+    //page += 1;
+    
+    // if no images matches to searched value
+    if (!totalHits) {
+      Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.')
+      return;
+    } else {
+      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`)
+    }
+
+
+
   } catch (error) {
     console.log(error.message);
   }
@@ -23,32 +51,39 @@ form.addEventListener("submit", async (e) => {
 
 });
 
-async function fetchPixabay() {
+//loadBtn.addEventListener("click", async () => {
+  
+  //try {
+  //  page += 1;
+  //  await fetchPixabay(page);  
+  //} catch (error) {
+  //  console.log(error.message);
+  //}
+
+//});
+
+
+async function fetchPixabay(qValue, page) {
     const searchParams = new URLSearchParams({
-    _key: "42474865-55c278fe0045234625bd75cd9",
-    _q: "",
-    _image_type: "photo",
-    _orientation: "horizontal",
-    _safesearch: "true",
-    _per_page: "40",
-    _page: page,
+    key: "42474865-55c278fe0045234625bd75cd9",
+    q: qValue,
+    image_type: "photo",
+    orientation: "horizontal",
+    safesearch: "true",
+    per_page: "40",
+    page: page,
     });
-  searchParams.set("q", qValue);
 
 
   const response = await axios
-    .get(`https://pixabay.com/api/?key=42474865-55c278fe0045234625bd75cd9&${searchParams}`);
+    .get(`https://pixabay.com/api/?${searchParams}`);
 
-  const { hits, totalHits } = response.data;
-  Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`)
-
-  return hits;
+  return response.data;
   
 }
 
 function renderGallery(items) {
-  const markup = items
-    .map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => {
+  const markup = items.hits.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => {
             return `<div class="photo-card">
             <a href="${largeImageURL}">
               <img src="${webformatURL}" alt="${tags}" loading="lazy" />
@@ -70,11 +105,7 @@ function renderGallery(items) {
           </div>`;
             })
         .join("");
-      gallery.innerHTML = markup;
+  gallery.insertAdjacentHTML('beforeend', markup);
+  //loadBtn.classList.remove('hidden');
 }
 
-function messageToUser() {
-  if (hits.length <= 0) {
-    Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.')
-  }
-}
