@@ -9,6 +9,9 @@ const gallery = document.querySelector(".gallery");
 const loadBtn = document.querySelector(".load-more");
 loadBtn.style.display = 'none';
 
+//nie ładuje kolejnych pages tylko ciągle page=1
+//totalHits coś źle, bo nadpisuje i źle wyświetla brak wyników
+//czemu nie podłącza style css
 let qValue; 
 let page = 1;
 let searchedValue;
@@ -23,8 +26,9 @@ form.addEventListener("submit", async (e) => {
 
   // Empty input to fetch
   if (!searchedValue) {
-      Notiflix.Notify.info('Please enter keywords again');
-      return;
+    loadBtn.style.display = 'none';
+    Notiflix.Notify.info('Please enter keywords again');
+    return;
   }
   
   qValue = searchedValue.split(" ").join("+");
@@ -38,6 +42,7 @@ form.addEventListener("submit", async (e) => {
 
     // if no images matches to searched value
     if (!totalHits) {
+      loadBtn.style.display = 'none';
       Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.')
       return;
     } else {
