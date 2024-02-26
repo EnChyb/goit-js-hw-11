@@ -1,3 +1,10 @@
-.hidden {
-    display: none;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background: url(/src/images/background.jpg);
+    font-family: "Protest Riot", sans-serif;
 }
