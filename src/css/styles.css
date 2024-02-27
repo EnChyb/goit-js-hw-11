@@ -4,22 +4,95 @@
     box-sizing: border-box;
 }
 
-html {
+body {
     background: url(/src/images/background.jpeg);
+    background-attachment: fixed;
     font-family: "Protest Riot", sans-serif;
+    letter-spacing: 0.02em;
+}
+
+img {
+    display: block;
 }
 
 .hidden {
     display: none;
 }
 
+.container {
+    width: 100%;
+    margin: 0 auto;
+
+}
+
+.form-div {
+    background-color: rgb(199, 218, 215);
+    position: fixed;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--cornflower);
+    box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08),
+            0px 1px 1px rgba(46, 47, 66, 0.16), 0px 1px 6px rgba(46, 47, 66, 0.08);
+
+}
+
 .search-form {
 
-
     display:flex;
+    justify-content: center;
     gap: 10px;
-    position: fixed;
-    top: 30px;
-    right: 45%;
+
     
+}
+
+.search-form input {
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-family: "Protest Riot", sans-serif;
+    letter-spacing: 0.02em;
+    font-size: large;
+    width: 500px;
+    box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08),
+                0px 1px 1px rgba(46, 47, 66, 0.16), 0px 1px 6px rgba(46, 47, 66, 0.08);
+}
+
+.search-form button {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    padding: 5px;
+    box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08),
+                0px 1px 1px rgba(46, 47, 66, 0.16), 0px 1px 6px rgba(46, 47, 66, 0.08);
+}
+
+.load-more {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-family: "Protest Riot", sans-serif;
+    letter-spacing: 0.02em;
+    font-size: large;
+    margin: 10px 0;;
+
+}
+
+.gallery{
+    display: grid;
+    column-gap: 10px;
+    row-gap: 15px;
+    
+
+}
+
+.photo-card{
+
+}
+
+.info-item{
+
+}
+
+.info-item b {
+
 }
