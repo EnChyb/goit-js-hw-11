@@ -5,6 +5,21 @@
 }
 
 html {
-    background: url(/src/images/background.jpg);
+    background: url(/src/images/background.jpeg);
     font-family: "Protest Riot", sans-serif;
+}
+
+.hidden {
+    display: none;
+}
+
+.search-form {
+
+
+    display:flex;
+    gap: 10px;
+    position: fixed;
+    top: 30px;
+    right: 45%;
+    
 }

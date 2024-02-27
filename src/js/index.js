@@ -11,7 +11,7 @@ loadBtn.style.display = 'none';
 
 //nie ładuje kolejnych pages tylko ciągle page=1
 //totalHits coś źle, bo nadpisuje i źle wyświetla brak wyników
-//czemu nie podłącza style css
+
 let qValue; 
 let page = 1;
 let searchedValue;
