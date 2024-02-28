@@ -13,9 +13,10 @@ loadBtn.style.display = 'none';
 //totalHits coś źle, bo nadpisuje i źle wyświetla brak wyników
 
 let qValue; 
-let page = 1;
+let page=1;
 let searchedValue;
 let pictures;
+let totalHitsNumber;
 let totalHits;
 
 form.addEventListener("submit", async (e) => {
@@ -33,12 +34,12 @@ form.addEventListener("submit", async (e) => {
   
   qValue = searchedValue.split(" ").join("+");
 
+
   try {
     pictures = await fetchPixabay(qValue, page);
     renderGallery(pictures);
-    
+    page++;
     totalHits = pictures.totalHits;
-    //page+=1;
 
     // if no images matches to searched value
     if (!totalHits) {
@@ -66,17 +67,18 @@ form.addEventListener("submit", async (e) => {
 
 });
 
+//Load more posts
 loadBtn.addEventListener("click", async () => {
-  
+
   try {
-    page += 1;
     await fetchPixabay(qValue, page);
     renderGallery(pictures);
+    page++;
     totalHits -= 40;
 
     // if it's the end of search results
     if (totalHits < 40) {
-      gallery.insertAdjacentHTML("beforeend", "<h2>We're sorry, but you've reached the end of search results</h2>")
+      document.insertAdjacentHTML("beforeend", "<h2 class = 'end-message'>We're sorry, but you've reached the end of search results</h2>")
       loadBtn.style.display = 'none';
     }
 
