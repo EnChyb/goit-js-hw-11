@@ -9,18 +9,17 @@ const gallery = document.querySelector(".gallery");
 const loadBtn = document.querySelector(".load-more");
 loadBtn.style.display = 'none';
 
-//nie ładuje kolejnych pages tylko ciągle page=1
-//totalHits coś źle, bo nadpisuje i źle wyświetla brak wyników
 
 let qValue; 
 let page=1;
 let searchedValue;
 let pictures;
 let totalHitsNumber;
-let totalHits;
+//let totalHits;
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  gallery.innerHTML = '';
   loadBtn.style.display = 'block';
   gallery.innerHTML ='';
   searchedValue = input.value.trim();
@@ -36,32 +35,31 @@ form.addEventListener("submit", async (e) => {
 
 
   try {
+
     pictures = await fetchPixabay(qValue, page);
     renderGallery(pictures);
-    page++;
-    totalHits = pictures.totalHits;
+    page += 1;
+    
+    totalHitsNumber = pictures.totalHits;
 
     // if no images matches to searched value
-    if (!totalHits) {
+    if (!pictures.totalHits) {
       loadBtn.style.display = 'none';
       Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.')
       return;
     } else {
-      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`)
+      Notiflix.Notify.success(`Hooray! We found ${pictures.totalHits} images.`)
     };
 
     // if it's the end of search results
-    if (totalHits < 40) {
+    if (pictures.totalHits < 40) {
       gallery.insertAdjacentHTML("beforeend", "<p>We're sorry, but you've reached the end of search results</p>")
       loadBtn.style.display = 'none';
     }
 
-
-
-    //scroll();
-
   } catch (error) {
     console.log(error.message);
+    Notiflix.Notify.failure('Oops! There is a problem with searching, try again');
   }
 
 
@@ -71,20 +69,21 @@ form.addEventListener("submit", async (e) => {
 loadBtn.addEventListener("click", async () => {
 
   try {
-    await fetchPixabay(qValue, page);
+    pictures = await fetchPixabay(qValue, page);
     renderGallery(pictures);
-    page++;
-    totalHits -= 40;
-
+    page+=1;
+    totalHitsNumber -= 40; 
+    console.log(totalHitsNumber);
+    
     // if it's the end of search results
-    if (totalHits < 40) {
-      document.insertAdjacentHTML("beforeend", "<h2 class = 'end-message'>We're sorry, but you've reached the end of search results</h2>")
+   if (totalHitsNumber <40) {
+      gallery.insertAdjacentHTML("beforeend", "<h2 class = 'end-message'>We're sorry, but you've reached the end of search results</h2>")
       loadBtn.style.display = 'none';
     }
-
   }  
     catch (error) {
     console.log(error.message);
+    Notiflix.Notify.failure('Oops, there is some problem with loading more photos!');
   }
 
 });
@@ -138,14 +137,14 @@ function renderGallery(items) {
   const lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt' });
   lightbox.refresh();
 
-  const { height: cardHeight } = document
-    .querySelector('.gallery')
-    .firstElementChild.getBoundingClientRect();
+  //const { height: cardHeight } = document
+  //  .querySelector('.gallery')
+  //  .firstElementChild.getBoundingClientRect();
 
-  window.scrollBy({
-    top: cardHeight * 2,
-    behavior: 'smooth',
-    });
+ // window.scrollBy({
+  //  top: cardHeight * 2,
+   // behavior: 'smooth',
+  //  });
 
 }
 
