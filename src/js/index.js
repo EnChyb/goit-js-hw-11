@@ -9,13 +9,11 @@ const gallery = document.querySelector(".gallery");
 const loadBtn = document.querySelector(".load-more");
 loadBtn.style.display = 'none';
 
-
 let qValue; 
 let page=1;
 let searchedValue;
 let pictures;
 let totalHitsNumber;
-//let totalHits;
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -33,9 +31,7 @@ form.addEventListener("submit", async (e) => {
   
   qValue = searchedValue.split(" ").join("+");
 
-
   try {
-
     pictures = await fetchPixabay(qValue, page);
     renderGallery(pictures);
     page += 1;
@@ -61,8 +57,6 @@ form.addEventListener("submit", async (e) => {
     console.log(error.message);
     Notiflix.Notify.failure('Oops! There is a problem with searching, try again');
   }
-
-
 });
 
 //Load more posts
@@ -73,7 +67,15 @@ loadBtn.addEventListener("click", async () => {
     renderGallery(pictures);
     page+=1;
     totalHitsNumber -= 40; 
-    console.log(totalHitsNumber);
+   
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect('.photo-card');
+
+    window.scrollBy({
+      top: cardHeight,
+      behavior: 'smooth',
+    });
     
     // if it's the end of search results
    if (totalHitsNumber <40) {
@@ -88,7 +90,6 @@ loadBtn.addEventListener("click", async () => {
 
 });
 
-
 async function fetchPixabay(qValue, page) {
     const searchParams = new URLSearchParams({
     key: "42474865-55c278fe0045234625bd75cd9",
@@ -100,12 +101,10 @@ async function fetchPixabay(qValue, page) {
     page: page,
     });
 
-
   const response = await axios
     .get(`https://pixabay.com/api/?${searchParams}`);
 
   return response.data;
-  
 }
 
 function renderGallery(items) {
@@ -137,22 +136,4 @@ function renderGallery(items) {
   const lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt' });
   lightbox.refresh();
 
-  //const { height: cardHeight } = document
-  //  .querySelector('.gallery')
-  //  .firstElementChild.getBoundingClientRect();
-
- // window.scrollBy({
-  //  top: cardHeight * 2,
-   // behavior: 'smooth',
-  //  });
-
 }
-
-//function scroll() {
-//  let infScroll = new InfiniteScroll('.container', {
-//    path: infScroll.getPath(),
-//  });
-//  infScroll.loadNextPage()
-//    .then(fetchPixabay(qValue, page))
-//   .then(renderGallery(pictures));
-//}
