@@ -41,9 +41,7 @@ img {
     display:flex;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 15px;
 
-    
 }
 
 .search-form input {
@@ -67,7 +65,13 @@ img {
                 0px 1px 1px rgba(46, 47, 66, 0.16), 0px 1px 6px rgba(46, 47, 66, 0.08);
 }
 
+.load {
+    display: flex;
+    justify-content: center;
+}
+
 .load-more {
+
     cursor: pointer;
     border-radius: 8px;
     padding: 10px 15px;
@@ -79,12 +83,17 @@ img {
 }
 
 .end-message {
-    height: 40px;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height:100px;
+    padding-left: 20px;
+    padding-right: 20px;
     background-color: rgb(199, 218, 215);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid black;
+    border-radius: 8px;
+    border-color: rgb(199, 218, 215);
+    border: 6px solid rgb(199, 218, 215);
     box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08),
             0px 1px 1px rgba(46, 47, 66, 0.16), 0px 1px 6px rgba(46, 47, 66, 0.08);
 
@@ -96,6 +105,7 @@ img {
     justify-content: center;
     flex-wrap: wrap;
     padding: 15px;
+    padding-top: 100px;
     gap: 20px;
 }
 
@@ -103,7 +113,7 @@ img {
     background-color: bisque;
     border-radius: 8px;
     border-color: rgb(199, 218, 215);
-    border:3em;
+    border:6px solid rgb(199, 218, 215);
     box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08),
             0px 1px 1px rgba(46, 47, 66, 0.16), 0px 1px 6px rgba(46, 47, 66, 0.08);
 
@@ -112,14 +122,18 @@ img {
 .photo-card img {
     object-fit: cover;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0px;
+    height:200px;
+    width: 350px;
 }
 
 .info {
     display: flex;
+    align-content: center;
     justify-content: space-between;
     gap: 10px;
     padding: 15px;
+    width: 350px;
 
 }
 

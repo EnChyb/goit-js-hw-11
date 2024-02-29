@@ -17,7 +17,7 @@ let totalHitsNumber;
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  gallery.innerHTML = '';
+  //gallery.innerHTML = '';
   loadBtn.style.display = 'block';
   gallery.innerHTML ='';
   searchedValue = input.value.trim();
@@ -49,7 +49,7 @@ form.addEventListener("submit", async (e) => {
 
     // if it's the end of search results
     if (pictures.totalHits < 40) {
-      gallery.insertAdjacentHTML("beforeend", "<p>We're sorry, but you've reached the end of search results</p>")
+      gallery.insertAdjacentHTML("beforeend", `<h2 class = 'end-message'>We're sorry, but you've reached the end of search results</h2>`)
       loadBtn.style.display = 'none';
     }
 
@@ -57,10 +57,13 @@ form.addEventListener("submit", async (e) => {
     console.log(error.message);
     Notiflix.Notify.failure('Oops! There is a problem with searching, try again');
   }
+  form.reset()
 });
 
 //Load more posts
-loadBtn.addEventListener("click", async () => {
+loadBtn.addEventListener("click", loadMore)
+  
+async function loadMore(){
 
   try {
     pictures = await fetchPixabay(qValue, page);
@@ -80,7 +83,7 @@ loadBtn.addEventListener("click", async () => {
     // if it's the end of search results
    if (totalHitsNumber <40) {
       gallery.insertAdjacentHTML("beforeend", "<h2 class = 'end-message'>We're sorry, but you've reached the end of search results</h2>")
-      loadBtn.style.display = 'none';
+     loadBtn.style.display = 'none';
     }
   }  
     catch (error) {
@@ -88,7 +91,7 @@ loadBtn.addEventListener("click", async () => {
     Notiflix.Notify.failure('Oops, there is some problem with loading more photos!');
   }
 
-});
+};
 
 async function fetchPixabay(qValue, page) {
     const searchParams = new URLSearchParams({
@@ -137,3 +140,20 @@ function renderGallery(items) {
   lightbox.refresh();
 
 }
+
+// listen for scroll event and load more images if we reach the bottom of window
+//window.addEventListener('scroll', infiniteScroll, {
+//    passive: true
+//});
+
+//function infiniteScroll() {
+//    const {
+//        scrollTop,
+ //       scrollHeight,
+ //       clientHeight
+ //   } = document.documentElement;
+//
+ //   if (scrollTop + clientHeight >= scrollHeight - 5){
+ //     loadMore();
+//    }
+//}
