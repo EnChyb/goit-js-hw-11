@@ -18,6 +18,7 @@ let totalHitsNumber;
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   //gallery.innerHTML = '';
+  page = 1;
   loadBtn.style.display = 'block';
   gallery.innerHTML ='';
   searchedValue = input.value.trim();
